@@ -20,6 +20,15 @@ const UserSchema = new Schema({
         type : Date,
         default: Date.now,
     },
+    role: {
+        type: String,
+        enum: ['admin', "student", "teacher"],
+        default: "student"
+    },
+    courses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+    }]
     
 })
 UserSchema.pre("save", function(next) {

@@ -18,10 +18,16 @@
 							<img src="images/blog_single.jpg" alt="" class="img-fluid">
 						</div>
 						<div class="post-content">
-							<div class="post-date">
-								<span class="day">30</span>
-								<span class="month">Nov</span>
-							</div>
+							<% if (user &&  !user.courses.includes(course._id)) { %>
+								<div class="post-date">
+									<form method="POST" action="/courses/enroll" >
+										<input type="hidden" name="course_id" value="<%= course._id %>">
+										<button class="btn btn-warning btn-lg">Enroll</button>
+									</form>
+									
+								</div>
+							<% } %>
+							
 							<div class="meta-info-blog">
 								<span><i class="fa fa-calendar"></i> <a href="#"><%= course.createdAt %> </a> </span>
 							</div>
@@ -29,26 +35,18 @@
 								<h2><a href="#" title=""> <%= course.name %>  </a></h2>
 							</div>
 							<div class="blog-desc">
-								<blockquote><%= course.description %> </blockquote>
+								<blockquote><%= course.description.substring(0,100) + "..." %> </blockquote>
 							</div>							
 						</div>
 					</div>
 					
 					<div class="blog-author">
 						<div class="author-bio">
-							<h3 class="author_name"><a href="#">Tom Jobs</a></h3>
-							<h5>CEO at <a href="#">SmartEDU</a></h5>
-							<p class="author_det">
-								Lorem ipsum dolor sit amet, consectetur adip, sed do eiusmod tempor incididunt  ut aut reiciendise voluptat maiores alias consequaturs aut perferendis doloribus omnis saperet docendi nec, eos ea alii molestiae aliquand.
-							</p>
+							<h3 class="author_name"><a href="#">Course by: <%= course.user.name %> </a></h3>
+							
 						</div>
 						<div class="author-desc">
-							<img src="/images/author.jpg" alt="about author">
-							<ul class="author-social">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-skype"></i></a></li>
-							</ul>
+						
 						</div>
 					</div>
 					

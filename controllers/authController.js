@@ -1,12 +1,11 @@
 const User = require("../models/User");
+const Category = require("../models/Category");
+const Course = require("../models/Course");
 const bcrypt = require('bcrypt');
 exports.createUser = async (req,res) => {
     try {
         const user = await User.create(req.body);
-        res.status(201).json({
-            status: "success",
-            user
-        })
+        res.status(201).redirect("/login")
     }catch (e) {
         res.status(400).json({
             status: "fail",
@@ -28,7 +27,7 @@ exports.loginUser = async (req,res) => {
                     if(same) {
                         req.session.userID = user._id;
                         //session
-                        res.status(200).redirect("/")
+                        res.status(200).redirect("/users/dashboard")
                     } else {
                         res.status(400).json({
                             status: "fail",
@@ -47,4 +46,15 @@ exports.loginUser = async (req,res) => {
 exports.logoutUser = (req,res) => {
     req.session.destroy();
     res.status(200).redirect("/")
+}
+exports.getDashboardPage = async(req,res) => {
+    const user = await User.findById(req.session.userID).populate("courses");
+    const categories = await Category.find()
+    const courses = await Course.find({user: req.session.userID})
+    res.render("dashboard", {
+        page_name: "dashboard",
+        user,
+        categories,
+        courses
+    })
 }
