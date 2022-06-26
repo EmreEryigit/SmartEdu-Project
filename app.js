@@ -36,7 +36,7 @@ app.use((req,res,next) => {
     next()
 })
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }))
-mongoose.connect("mongodb://localhost:27017/smartedu", { useNewUrlParser: true }).then(() => {
+mongoose.connect("mongodb+srv://emre:k4hxqy4Ll3O2hBr4@cluster0.rnog6.mongodb.net/SmartEdu?retryWrites=true&w=majority", { useNewUrlParser: true }).then(() => {
     console.log("Connected to MongoDB");
 });
 //ROUTES
@@ -48,7 +48,8 @@ app.use("/users", userRoute)
 
 
 
-port = 3000
+port = process.env.PORT || 5000
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 })
+
